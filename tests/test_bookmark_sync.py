@@ -12,6 +12,7 @@ class BookmarkSyncTests(unittest.TestCase):
     def setUp(cls):
         cls.data_dir = os.path.join(os.path.dirname(__file__), 'data')
         cls.bkm_file = os.path.join(cls.data_dir, 'bookmark1.html')
+        cls.bkm_file2 = os.path.join(cls.data_dir, 'bookmark2.html')
         cls.tree1 = fromstring(
             '<html><h1>Bookmarks Menu</h1><dl><h3 add_date="1518129521"'
             ' last_modified="1518129615">Subfolder</h3><dl><a add_date="1518129612" '

@@ -3,6 +3,8 @@
 from lxml.etree import tostring
 from lxml.html import HtmlElement
 from lxml.html.soupparser import fromstring
+from xmldiff import formatting, patch
+from xmldiff.main import diff_trees
 
 
 def load_bookmarks(filepath):
@@ -10,7 +12,6 @@ def load_bookmarks(filepath):
     with open(filepath) as fp:
         tree = fromstring(fp.read())
 
-    # strip DT and P tags
     return reduce_tree(tree)
 
 
@@ -73,3 +74,12 @@ def reduce_tree(node):
             for grandchild in newchild.getchildren():
                 newnode.append(grandchild)
     return newnode
+
+
+def compare_trees(tree1, tree2):
+    """Generates an xmldiff from two lxml trees."""
+    opts = {'ratio_mode': 'accurate', 'F': 0.8}
+    formatter = formatting.DiffFormatter(normalize=formatting.WS_BOTH, pretty_print=True)
+    diff = diff_trees(tree1, tree2, diff_options=opts, formatter=formatter)
+
+    return patch.DiffParser().parse(diff)
